@@ -1,0 +1,21 @@
+﻿@model ContosoSite.Models.Musicians
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Удалить</h2>
+
+<h3>Вы действительно хотите удалить @Model.Famili @Model.Name</h3>
+<div>
+
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Удалить" class="btn btn-default" /> |
+            @Html.ActionLink("К списку музыкантов", "Index")
+        </div>
+    }
+</div>

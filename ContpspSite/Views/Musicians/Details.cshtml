@@ -1,0 +1,68 @@
+﻿@model ContosoSite.Models.Musicians
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Информация</h2>
+
+<div>
+    <h4>@Model.Famili @Model.Name</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Фамилия
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Famili)
+        </dd>
+
+        <dt>
+            Имя
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            Отчество
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Father)
+        </dd>
+
+        <dt>
+            Информация
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Information)
+        </dd>
+
+    </dl>
+</div>
+
+<h4>Проекты с участием музыканта</h4>
+<table class="table">
+    <tr>
+        <th>
+            Название
+        </th>
+    </tr>
+    @foreach (var item in this.Model.Sostav_of_project)
+    {
+        <tr>
+            <td>
+                <a class="clr" href="~/Projects/Details/@item.ID_Project">@item.Projects.Name</a>
+            </td>
+        </tr>
+    }
+</table>
+
+<p>
+    @Html.ActionLink("Редактировать", "Edit", new { id = Model.ID_Musician }) |
+    @Html.ActionLink("К списку музыкантов", "Index")
+</p>

@@ -1,0 +1,64 @@
+﻿@model ContosoSite.Models.Sostav_of_project
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Удалить @Model.Musicians.Famili @Model.Musicians.Name из проекта @Model.Projects.Name?</h3>
+<div>
+    <h4>Sostav_of_project</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Data_including)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Data_including)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Date_outsiding)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date_outsiding)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Musicians.Famili)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Musicians.Famili)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Projects.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Projects.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Roles.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Roles.Name)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Удалить" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

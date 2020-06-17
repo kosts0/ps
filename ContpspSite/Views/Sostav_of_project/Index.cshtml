@@ -1,0 +1,57 @@
+﻿@model IEnumerable<ContosoSite.Models.Sostav_of_project>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Состав проектов</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Дата вступления
+        </th>
+        <th>
+            Дата выхода
+        </th>
+        <th>
+            Музыкант
+        </th>
+        <th>
+            Название проекта
+        </th>
+        <th>
+            Роль
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Data_including)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Date_outsiding)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Musicians.Famili) @Html.DisplayFor(modelItem => item.Musicians.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Projects.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Roles.Name)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.ID_Musican, id2 = item.ID_Project, code = item.Code_role }) |
+            @Html.ActionLink("Details", "Details", new { id = item.ID_Musican,id2 = item.ID_Project, code = item.Code_role }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.ID_Musican, id2 = item.ID_Project, code = item.Code_role })
+        </td>
+    </tr>
+}
+
+</table>

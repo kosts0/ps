@@ -1,0 +1,47 @@
+﻿@model ContosoSite.Models.Soctav_of_compositions
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Удалить</h2>
+
+<h3>Удалить состав?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Приглашенный
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Guest)
+        </dd>
+
+        <dt>
+            Название композиции
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Compositions.Name)
+        </dd>
+
+        <dt>
+            Название проекта
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Projects.Name)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Удалить" class="btn btn-default" /> |
+            @Html.ActionLink("К списку составов композиций", "Index")
+        </div>
+    }
+</div>

@@ -1,0 +1,567 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Хранилище IDZnewModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Albom">
+          <Key>
+            <PropertyRef Name="ID Alboma" />
+          </Key>
+          <Property Name="ID Alboma" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Information" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Compositions">
+          <Key>
+            <PropertyRef Name="ID Composotion" />
+          </Key>
+          <Property Name="ID Composotion" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Realise Date" Type="date" Nullable="false" />
+          <Property Name="Original" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="Compositions in album">
+          <Key>
+            <PropertyRef Name="ID Composition" />
+            <PropertyRef Name="ID Albom" />
+          </Key>
+          <Property Name="Number" Type="int" Nullable="false" />
+          <Property Name="ID Composition" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ID Albom" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Musicians">
+          <Key>
+            <PropertyRef Name="ID Musician" />
+          </Key>
+          <Property Name="ID Musician" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Famili" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Father" Type="nvarchar" MaxLength="50" />
+          <Property Name="Information" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="Projects">
+          <Key>
+            <PropertyRef Name="ID Project" />
+          </Key>
+          <Property Name="ID Project" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Roles">
+          <Key>
+            <PropertyRef Name="Code rol" />
+          </Key>
+          <Property Name="Code rol" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Soctav of compositions">
+          <Key>
+            <PropertyRef Name="ID composition" />
+            <PropertyRef Name="ID Project" />
+          </Key>
+          <Property Name="Guest" Type="bit" Nullable="false" />
+          <Property Name="ID composition" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ID Project" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Sostav of project">
+          <Key>
+            <PropertyRef Name="ID Musican" />
+            <PropertyRef Name="ID Project" />
+            <PropertyRef Name="Code role" />
+          </Key>
+          <Property Name="Data including" Type="date" Nullable="false" />
+          <Property Name="Date outsiding" Type="date" />
+          <Property Name="ID Musican" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ID Project" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Code role" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "IDZnew.dbo.date" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+        <Association Name="FK_Compositions in album_Albom">
+          <End Role="Albom" Type="Self.Albom" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Compositions in album" Type="Self.Compositions in album" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Albom">
+              <PropertyRef Name="ID Alboma" />
+            </Principal>
+            <Dependent Role="Compositions in album">
+              <PropertyRef Name="ID Albom" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Compositions in album_Compositions">
+          <End Role="Compositions" Type="Self.Compositions" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Compositions in album" Type="Self.Compositions in album" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Compositions">
+              <PropertyRef Name="ID Composotion" />
+            </Principal>
+            <Dependent Role="Compositions in album">
+              <PropertyRef Name="ID Composition" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Compositions_Compositions">
+          <End Role="Compositions" Type="Self.Compositions" Multiplicity="0..1" />
+          <End Role="Compositions1" Type="Self.Compositions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Compositions">
+              <PropertyRef Name="ID Composotion" />
+            </Principal>
+            <Dependent Role="Compositions1">
+              <PropertyRef Name="Original" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Soctav of compositions_Compositions">
+          <End Role="Compositions" Type="Self.Compositions" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Soctav of compositions" Type="Self.Soctav of compositions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Compositions">
+              <PropertyRef Name="ID Composotion" />
+            </Principal>
+            <Dependent Role="Soctav of compositions">
+              <PropertyRef Name="ID composition" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Soctav of compositions_Projects">
+          <End Role="Projects" Type="Self.Projects" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Soctav of compositions" Type="Self.Soctav of compositions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Projects">
+              <PropertyRef Name="ID Project" />
+            </Principal>
+            <Dependent Role="Soctav of compositions">
+              <PropertyRef Name="ID Project" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sostav of project_Musicians">
+          <End Role="Musicians" Type="Self.Musicians" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Sostav of project" Type="Self.Sostav of project" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Musicians">
+              <PropertyRef Name="ID Musician" />
+            </Principal>
+            <Dependent Role="Sostav of project">
+              <PropertyRef Name="ID Musican" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sostav of project_Projects">
+          <End Role="Projects" Type="Self.Projects" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Sostav of project" Type="Self.Sostav of project" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Projects">
+              <PropertyRef Name="ID Project" />
+            </Principal>
+            <Dependent Role="Sostav of project">
+              <PropertyRef Name="ID Project" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sostav of project_Roles">
+          <End Role="Roles" Type="Self.Roles" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Sostav of project" Type="Self.Sostav of project" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="Code rol" />
+            </Principal>
+            <Dependent Role="Sostav of project">
+              <PropertyRef Name="Code role" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище IDZnewModelContainer">
+          <EntitySet Name="Albom" EntityType="Self.Albom" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Compositions" EntityType="Self.Compositions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Compositions in album" EntityType="Self.Compositions in album" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Musicians" EntityType="Self.Musicians" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Projects" EntityType="Self.Projects" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Soctav of compositions" EntityType="Self.Soctav of compositions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Sostav of project" EntityType="Self.Sostav of project" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Compositions in album_Albom" Association="Self.FK_Compositions in album_Albom">
+            <End Role="Albom" EntitySet="Albom" />
+            <End Role="Compositions in album" EntitySet="Compositions in album" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Compositions in album_Compositions" Association="Self.FK_Compositions in album_Compositions">
+            <End Role="Compositions" EntitySet="Compositions" />
+            <End Role="Compositions in album" EntitySet="Compositions in album" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Compositions_Compositions" Association="Self.FK_Compositions_Compositions">
+            <End Role="Compositions" EntitySet="Compositions" />
+            <End Role="Compositions1" EntitySet="Compositions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Soctav of compositions_Compositions" Association="Self.FK_Soctav of compositions_Compositions">
+            <End Role="Compositions" EntitySet="Compositions" />
+            <End Role="Soctav of compositions" EntitySet="Soctav of compositions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Soctav of compositions_Projects" Association="Self.FK_Soctav of compositions_Projects">
+            <End Role="Projects" EntitySet="Projects" />
+            <End Role="Soctav of compositions" EntitySet="Soctav of compositions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sostav of project_Musicians" Association="Self.FK_Sostav of project_Musicians">
+            <End Role="Musicians" EntitySet="Musicians" />
+            <End Role="Sostav of project" EntitySet="Sostav of project" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sostav of project_Projects" Association="Self.FK_Sostav of project_Projects">
+            <End Role="Projects" EntitySet="Projects" />
+            <End Role="Sostav of project" EntitySet="Sostav of project" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sostav of project_Roles" Association="Self.FK_Sostav of project_Roles">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="Sostav of project" EntitySet="Sostav of project" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="IDZnewModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Albom">
+          <Key>
+            <PropertyRef Name="ID_Alboma" />
+          </Key>
+          <Property Name="ID_Alboma" Type="Guid" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Information" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Compositions_in_album" Relationship="Self.FK_Compositions_in_album_Albom" FromRole="Albom" ToRole="Compositions_in_album" />
+        </EntityType>
+        <EntityType Name="Compositions">
+          <Key>
+            <PropertyRef Name="ID_Composotion" />
+          </Key>
+          <Property Name="ID_Composotion" Type="Guid" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Realise_Date" Type="DateTime" Nullable="false" />
+          <Property Name="Original" Type="Guid" />
+          <NavigationProperty Name="Compositions_in_album" Relationship="Self.FK_Compositions_in_album_Compositions" FromRole="Compositions" ToRole="Compositions_in_album" />
+          <NavigationProperty Name="Soctav_of_compositions" Relationship="Self.FK_Soctav_of_compositions_Compositions" FromRole="Compositions" ToRole="Soctav_of_compositions" />
+          <NavigationProperty Name="Compositions1" Relationship="IDZnewModel.FK_Compositions_Compositions" FromRole="Compositions" ToRole="Compositions1" />
+          <NavigationProperty Name="Compositions2" Relationship="IDZnewModel.FK_Compositions_Compositions" FromRole="Compositions1" ToRole="Compositions" />
+          </EntityType>
+        <EntityType Name="Compositions_in_album">
+          <Key>
+            <PropertyRef Name="ID_Composition" />
+            <PropertyRef Name="ID_Albom" />
+          </Key>
+          <Property Name="Number" Type="Int32" Nullable="false" />
+          <Property Name="ID_Composition" Type="Guid" Nullable="false" />
+          <Property Name="ID_Albom" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="Albom" Relationship="Self.FK_Compositions_in_album_Albom" FromRole="Compositions_in_album" ToRole="Albom" />
+          <NavigationProperty Name="Compositions" Relationship="Self.FK_Compositions_in_album_Compositions" FromRole="Compositions_in_album" ToRole="Compositions" />
+        </EntityType>
+        <EntityType Name="Musicians">
+          <Key>
+            <PropertyRef Name="ID_Musician" />
+          </Key>
+          <Property Name="ID_Musician" Type="Guid" Nullable="false" />
+          <Property Name="Famili" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Father" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Information" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Sostav_of_project" Relationship="Self.FK_Sostav_of_project_Musicians" FromRole="Musicians" ToRole="Sostav_of_project" />
+        </EntityType>
+        <EntityType Name="Projects">
+          <Key>
+            <PropertyRef Name="ID_Project" />
+          </Key>
+          <Property Name="ID_Project" Type="Guid" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Soctav_of_compositions" Relationship="Self.FK_Soctav_of_compositions_Projects" FromRole="Projects" ToRole="Soctav_of_compositions" />
+          <NavigationProperty Name="Sostav_of_project" Relationship="Self.FK_Sostav_of_project_Projects" FromRole="Projects" ToRole="Sostav_of_project" />
+        </EntityType>
+        <EntityType Name="Roles">
+          <Key>
+            <PropertyRef Name="Code_rol" />
+          </Key>
+          <Property Name="Code_rol" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Sostav_of_project" Relationship="Self.FK_Sostav_of_project_Roles" FromRole="Roles" ToRole="Sostav_of_project" />
+        </EntityType>
+        <EntityType Name="Soctav_of_compositions">
+          <Key>
+            <PropertyRef Name="ID_composition" />
+            <PropertyRef Name="ID_Project" />
+          </Key>
+          <Property Name="Guest" Type="Boolean" Nullable="false" />
+          <Property Name="ID_composition" Type="Guid" Nullable="false" />
+          <Property Name="ID_Project" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="Compositions" Relationship="Self.FK_Soctav_of_compositions_Compositions" FromRole="Soctav_of_compositions" ToRole="Compositions" />
+          <NavigationProperty Name="Projects" Relationship="Self.FK_Soctav_of_compositions_Projects" FromRole="Soctav_of_compositions" ToRole="Projects" />
+        </EntityType>
+        <EntityType Name="Sostav_of_project">
+          <Key>
+            <PropertyRef Name="ID_Musican" />
+            <PropertyRef Name="ID_Project" />
+            <PropertyRef Name="Code_role" />
+          </Key>
+          <Property Name="Data_including" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Date_outsiding" Type="DateTime" Precision="0" />
+          <Property Name="ID_Musican" Type="Guid" Nullable="false" />
+          <Property Name="ID_Project" Type="Guid" Nullable="false" />
+          <Property Name="Code_role" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Musicians" Relationship="Self.FK_Sostav_of_project_Musicians" FromRole="Sostav_of_project" ToRole="Musicians" />
+          <NavigationProperty Name="Projects" Relationship="Self.FK_Sostav_of_project_Projects" FromRole="Sostav_of_project" ToRole="Projects" />
+          <NavigationProperty Name="Roles" Relationship="Self.FK_Sostav_of_project_Roles" FromRole="Sostav_of_project" ToRole="Roles" />
+        </EntityType>
+        <Association Name="FK_Compositions_in_album_Albom">
+          <End Role="Albom" Type="Self.Albom" Multiplicity="1" />
+          <End Role="Compositions_in_album" Type="Self.Compositions_in_album" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Albom">
+              <PropertyRef Name="ID_Alboma" />
+            </Principal>
+            <Dependent Role="Compositions_in_album">
+              <PropertyRef Name="ID_Albom" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Compositions_in_album_Compositions">
+          <End Role="Compositions" Type="Self.Compositions" Multiplicity="1" />
+          <End Role="Compositions_in_album" Type="Self.Compositions_in_album" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Compositions">
+              <PropertyRef Name="ID_Composotion" />
+            </Principal>
+            <Dependent Role="Compositions_in_album">
+              <PropertyRef Name="ID_Composition" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Soctav_of_compositions_Compositions">
+          <End Role="Compositions" Type="Self.Compositions" Multiplicity="1" />
+          <End Role="Soctav_of_compositions" Type="Self.Soctav_of_compositions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Compositions">
+              <PropertyRef Name="ID_Composotion" />
+            </Principal>
+            <Dependent Role="Soctav_of_compositions">
+              <PropertyRef Name="ID_composition" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sostav_of_project_Musicians">
+          <End Role="Musicians" Type="Self.Musicians" Multiplicity="1" />
+          <End Role="Sostav_of_project" Type="Self.Sostav_of_project" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Musicians">
+              <PropertyRef Name="ID_Musician" />
+            </Principal>
+            <Dependent Role="Sostav_of_project">
+              <PropertyRef Name="ID_Musican" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Soctav_of_compositions_Projects">
+          <End Role="Projects" Type="Self.Projects" Multiplicity="1" />
+          <End Role="Soctav_of_compositions" Type="Self.Soctav_of_compositions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Projects">
+              <PropertyRef Name="ID_Project" />
+            </Principal>
+            <Dependent Role="Soctav_of_compositions">
+              <PropertyRef Name="ID_Project" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sostav_of_project_Projects">
+          <End Role="Projects" Type="Self.Projects" Multiplicity="1" />
+          <End Role="Sostav_of_project" Type="Self.Sostav_of_project" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Projects">
+              <PropertyRef Name="ID_Project" />
+            </Principal>
+            <Dependent Role="Sostav_of_project">
+              <PropertyRef Name="ID_Project" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sostav_of_project_Roles">
+          <End Role="Roles" Type="Self.Roles" Multiplicity="1" />
+          <End Role="Sostav_of_project" Type="Self.Sostav_of_project" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="Code_rol" />
+            </Principal>
+            <Dependent Role="Sostav_of_project">
+              <PropertyRef Name="Code_role" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="IDZnewEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Albom" EntityType="Self.Albom" />
+          <EntitySet Name="Compositions" EntityType="Self.Compositions" />
+          <EntitySet Name="Compositions_in_album" EntityType="Self.Compositions_in_album" />
+          <EntitySet Name="Musicians" EntityType="Self.Musicians" />
+          <EntitySet Name="Projects" EntityType="Self.Projects" />
+          <EntitySet Name="Roles" EntityType="Self.Roles" />
+          <EntitySet Name="Soctav_of_compositions" EntityType="Self.Soctav_of_compositions" />
+          <EntitySet Name="Sostav_of_project" EntityType="Self.Sostav_of_project" />
+          <AssociationSet Name="FK_Compositions_in_album_Albom" Association="Self.FK_Compositions_in_album_Albom">
+            <End Role="Albom" EntitySet="Albom" />
+            <End Role="Compositions_in_album" EntitySet="Compositions_in_album" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Compositions_in_album_Compositions" Association="Self.FK_Compositions_in_album_Compositions">
+            <End Role="Compositions" EntitySet="Compositions" />
+            <End Role="Compositions_in_album" EntitySet="Compositions_in_album" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Soctav_of_compositions_Compositions" Association="Self.FK_Soctav_of_compositions_Compositions">
+            <End Role="Compositions" EntitySet="Compositions" />
+            <End Role="Soctav_of_compositions" EntitySet="Soctav_of_compositions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sostav_of_project_Musicians" Association="Self.FK_Sostav_of_project_Musicians">
+            <End Role="Musicians" EntitySet="Musicians" />
+            <End Role="Sostav_of_project" EntitySet="Sostav_of_project" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Soctav_of_compositions_Projects" Association="Self.FK_Soctav_of_compositions_Projects">
+            <End Role="Projects" EntitySet="Projects" />
+            <End Role="Soctav_of_compositions" EntitySet="Soctav_of_compositions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sostav_of_project_Projects" Association="Self.FK_Sostav_of_project_Projects">
+            <End Role="Projects" EntitySet="Projects" />
+            <End Role="Sostav_of_project" EntitySet="Sostav_of_project" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sostav_of_project_Roles" Association="Self.FK_Sostav_of_project_Roles">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="Sostav_of_project" EntitySet="Sostav_of_project" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Compositions_Compositions" Association="IDZnewModel.FK_Compositions_Compositions">
+            <End Role="Compositions" EntitySet="Compositions" />
+            <End Role="Compositions1" EntitySet="Compositions" />
+          </AssociationSet>
+        </EntityContainer>
+        <ComplexType Name="ComplexType1" />
+        <Association Name="FK_Compositions_Compositions">
+          <End Type="IDZnewModel.Compositions" Role="Compositions" Multiplicity="0..1" />
+          <End Type="IDZnewModel.Compositions" Role="Compositions1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Compositions">
+              <PropertyRef Name="ID_Composotion" />
+            </Principal>
+            <Dependent Role="Compositions1">
+              <PropertyRef Name="Original" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище IDZnewModelContainer" CdmEntityContainer="IDZnewEntities1">
+          <EntitySetMapping Name="Albom">
+            <EntityTypeMapping TypeName="IDZnewModel.Albom">
+              <MappingFragment StoreEntitySet="Albom">
+                <ScalarProperty Name="ID_Alboma" ColumnName="ID Alboma" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Information" ColumnName="Information" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Compositions">
+            <EntityTypeMapping TypeName="IDZnewModel.Compositions">
+              <MappingFragment StoreEntitySet="Compositions">
+                <ScalarProperty Name="ID_Composotion" ColumnName="ID Composotion" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Realise_Date" ColumnName="Realise Date" />
+                <ScalarProperty Name="Original" ColumnName="Original" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Compositions_in_album">
+            <EntityTypeMapping TypeName="IDZnewModel.Compositions_in_album">
+              <MappingFragment StoreEntitySet="Compositions in album">
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="ID_Composition" ColumnName="ID Composition" />
+                <ScalarProperty Name="ID_Albom" ColumnName="ID Albom" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Musicians">
+            <EntityTypeMapping TypeName="IDZnewModel.Musicians">
+              <MappingFragment StoreEntitySet="Musicians">
+                <ScalarProperty Name="ID_Musician" ColumnName="ID Musician" />
+                <ScalarProperty Name="Famili" ColumnName="Famili" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Father" ColumnName="Father" />
+                <ScalarProperty Name="Information" ColumnName="Information" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Projects">
+            <EntityTypeMapping TypeName="IDZnewModel.Projects">
+              <MappingFragment StoreEntitySet="Projects">
+                <ScalarProperty Name="ID_Project" ColumnName="ID Project" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="IDZnewModel.Roles">
+              <MappingFragment StoreEntitySet="Roles">
+                <ScalarProperty Name="Code_rol" ColumnName="Code rol" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Soctav_of_compositions">
+            <EntityTypeMapping TypeName="IDZnewModel.Soctav_of_compositions">
+              <MappingFragment StoreEntitySet="Soctav of compositions">
+                <ScalarProperty Name="Guest" ColumnName="Guest" />
+                <ScalarProperty Name="ID_composition" ColumnName="ID composition" />
+                <ScalarProperty Name="ID_Project" ColumnName="ID Project" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sostav_of_project">
+            <EntityTypeMapping TypeName="IDZnewModel.Sostav_of_project">
+              <MappingFragment StoreEntitySet="Sostav of project">
+                <ScalarProperty Name="Data_including" ColumnName="Data including" />
+                <ScalarProperty Name="Date_outsiding" ColumnName="Date outsiding" />
+                <ScalarProperty Name="ID_Musican" ColumnName="ID Musican" />
+                <ScalarProperty Name="ID_Project" ColumnName="ID Project" />
+                <ScalarProperty Name="Code_role" ColumnName="Code role" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="False" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,50 @@
+﻿@model IEnumerable<ContosoSite.Models.Compositions>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Список композиций</h2>
+
+<p>
+    @Html.ActionLink("Добавить композицию", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Название
+        </th>
+        <th>
+            Дата выхода
+        </th>
+        <th>
+            Информация
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            <p>@Html.DisplayFor(modelItem => item.Realise_Date.Day). @Html.DisplayFor(modelItem => item.Realise_Date.Month). @Html.DisplayFor(modelItem => item.Realise_Date.Year)</p>
+        </td>
+        <td>
+            @if (item.Original != null)
+            {
+
+                <p>Оригинал-</p>
+                <p>@item.Compositions2.Name</p>
+
+            }
+        <td>
+        <td>
+            @Html.ActionLink("Редактировать", "Edit", new { id = item.ID_Composotion }) |
+            @Html.ActionLink("Информация", "Details", new { id = item.ID_Composotion }) |
+            @Html.ActionLink("Удалить", "Delete", new { id = item.ID_Composotion })
+        </td>
+    </tr>
+}
+
+</table>

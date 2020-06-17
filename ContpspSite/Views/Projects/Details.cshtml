@@ -1,0 +1,65 @@
+﻿@model ContosoSite.Models.Projects
+@using ContosoSite.Models;
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>О проекте</h2>
+
+<div>
+    <h4>@(this.Model.Name.ToString())</h4>
+    <hr />
+</div>
+<table class="table">
+    <tr>
+        <th>
+            Участник
+        </th>
+        <th>
+            Роль
+        </th>
+    </tr>
+    @foreach (var item in Model.Sostav_of_project)
+    {
+        <tr>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Musicians.Name)
+                @Html.DisplayFor(modelItem => item.Musicians.Famili)
+
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Roles.Name)
+                @if (item.Date_outsiding != null)
+                {
+                    <p>Вышел из состава @item.Date_outsiding.Value.Day.  @item.Date_outsiding.Value.Month. @item.Date_outsiding.Value.Year</p>
+
+
+                }
+            </td>
+        </tr>
+    }
+</table>
+<h4>Проект написал такие треки как:</h4>
+<table class="table">
+    <tr>
+        <th>
+            Название
+        </th>
+    </tr>
+    @foreach (var item in this.Model.Soctav_of_compositions)
+    {
+        <tr>
+            <td>
+                <a class="clr" href="~/Compositions/Details/@item.ID_composition">@item.Compositions.Name</a>
+            </td>
+        </tr>
+    }
+</table>
+
+
+
+
+<p>
+    @Html.ActionLink("К списку проектов", "Index")
+</p>

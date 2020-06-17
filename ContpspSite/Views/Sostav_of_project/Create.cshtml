@@ -1,0 +1,78 @@
+﻿@model ContosoSite.Models.Sostav_of_project
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Добавить</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <p>Проект</p>
+
+    <h4><input id="id" name=@ViewData["id"]  value = @ViewData["Name"] type="hidden"></h4>
+    <h4>@ViewData["Name"]</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="form-group">
+        <p>Дата вступления</p>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Data_including, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Data_including, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <p>Дата выхода</p>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Date_outsiding, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Date_outsiding, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <p>Роль</p>
+        <div class="col-md-10">
+            @Html.DropDownList("Code_role", null, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Code_role, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <p>Музыкант</p>
+        <div class="col-md-10">
+            @*@Html.DropDownList("ID_Musican", null, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.ID_Musican, "", new { @class = "text-danger" })*@
+            @Html.DropDownList("ID_Musican" , ViewBag.ID_Musican as SelectList, htmlAttributes: new { @class = "form-control" })
+            
+        </div>
+    </div>
+    @*<div class="form-group">
+            @Html.LabelFor(model => model.ID_Project, "ID_Project", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("ID_Project", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ID_Project, "", new { @class = "text-danger" })
+
+            </div>
+        </div>*@
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Добавить" class="btn btn-default" />
+        </div>
+    </div>
+</div>
+}
+
+<div>
+    @Html.ActionLink("К проектам", "Index","Projects")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

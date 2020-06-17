@@ -1,0 +1,45 @@
+﻿@model IEnumerable<ContosoSite.Models.Compositions_in_album>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Списк композиций в альбомах</h2>
+
+<p>
+    @Html.ActionLink("Добавить композицию в альбом", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Номер
+        </th>
+        <th>
+            Название Альбома
+        </th>
+        <th>
+            Название композиции
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Number)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Albom.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Compositions.Name)
+        </td>
+        <td>
+            @Html.ActionLink("Редактировать", "Edit", new { ida = item.ID_Albom,idk=item.ID_Composition }) |
+            @Html.ActionLink("Информация", "Details", new { ida = item.ID_Albom, idk = item.ID_Composition }) |
+            @Html.ActionLink("Удалить", "Delete", new { ida = item.ID_Albom, idk = item.ID_Composition })
+        </td>
+    </tr>
+}
+
+</table>

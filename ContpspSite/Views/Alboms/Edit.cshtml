@@ -1,0 +1,72 @@
+﻿@model ContosoSite.Models.Albom
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Редактировать</h2>
+<h4>@this.Model.Name</h4>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Albom</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.ID_Alboma)
+
+        <div class="form-group">
+            <p>Название</p>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <p>Описание</p>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Information, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Information, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <h4>Композиции альбома @Html.ActionLink("Изменить композиции альбома","Index", "Compositions_in_album")</h4>
+        <table class="table">
+            <tr>
+                <th>
+                    Номер
+                </th>
+                <th>
+                    Название
+                </th>
+            </tr>
+            @foreach (var item in this.Model.Compositions_in_album)
+            {
+                <tr>
+                    <td>
+                        @item.Number
+                    </td>
+                    <td>
+                        <a class="clr" href="~/Compositions/Details/@item.ID_Composition">@item.Compositions.Name</a>
+                    </td>
+                </tr>
+            }
+        </table>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

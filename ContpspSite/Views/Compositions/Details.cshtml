@@ -1,0 +1,51 @@
+﻿@model ContosoSite.Models.Compositions
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Информация о композиции</h2>
+
+<div>
+    <h4>@this.Model.Name</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <p>
+            Дата релиза
+        </p>
+
+        <dd>
+            @Html.DisplayFor(model => model.Realise_Date)
+        </dd>
+
+        @if (Model.Original != null)
+        {
+            <p>
+                Оригинал
+            </p>
+            <dd>
+                @Html.DisplayFor(model => model.Original)
+            </dd>
+        }
+
+
+
+    </dl>
+</div>
+<h4>Композицию написали</h4>
+<table class="table">
+    <tr>
+        <td>
+            Название проекта
+        </td>
+    </tr>
+    @foreach (var item in Model.Soctav_of_compositions)
+    {
+        <tr>
+            <td>
+                <a class="clr" href="~/Projects/Details/@item.ID_Project">@item.Projects.Name</a>
+            </td>
+        </tr>
+        
+    }
+</table>
